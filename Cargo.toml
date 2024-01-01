@@ -3,6 +3,5 @@ name = "synapsis-core"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
+secp256k1 = { version = "0.28.0", features = ["rand-std", "hashes-std"] }

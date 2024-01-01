@@ -1,3 +1,7 @@
+use crate::crypto::Crypto;
+
+mod crypto;
+
 fn main() {
-    println!("Hello, world!");
+    println!("{:?}", Crypto::generate_keys());
 }
