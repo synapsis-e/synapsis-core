@@ -4,4 +4,5 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+ecies = { version = "0.2.6", features = ["std"] }
 secp256k1 = { version = "0.28.0", features = ["rand-std", "hashes-std"] }

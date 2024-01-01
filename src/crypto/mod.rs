@@ -1,17 +1,31 @@
-use secp256k1::rand::rngs::OsRng;
-use secp256k1::{Secp256k1, SecretKey};
+mod sign;
 
+use ecies::{decrypt, encrypt, utils::generate_keypair, PublicKey, SecretKey};
 
-pub struct Crypto;
+use self::sign::{Sign, Signed};
+
+#[derive(Debug)]
+pub struct Encrypted(Signed, Vec<u8>, [u8; 65], [u8; 32]);
+
+pub struct Crypto {
+    sign: Sign,
+}
 
 impl Crypto {
-    fn generate_keys() -> (SecretKey, secp256k1::PublicKey) {
-        let secp = Secp256k1::new();
-
-        secp.generate_keypair(&mut OsRng)
+    pub fn new() -> Self {
+        Self {
+            sign: Sign::new(),
+        }
     }
 
-    fn encrypt(text: &str) -> _ {
+    pub fn encrypt(&self, text: &[u8]) -> Encrypted {
+        let (secret, public) = generate_keypair();
+        let (s_secret, s_public) = (secret.serialize(), public.serialize());
+        let encrypted = encrypt(&s_public, text)
+            .unwrap();
 
+        let signed = self.sign.sign(text);
+
+        Encrypted(signed, encrypted, s_public, s_secret)
     }
 }

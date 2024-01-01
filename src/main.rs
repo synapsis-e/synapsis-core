@@ -1,7 +1,8 @@
-use crate::crypto::Crypto;
-
 mod crypto;
 
+use crypto::Crypto;
+
 fn main() {
-    println!("{:?}", Crypto::generate_keys());
+    let crypto = Crypto::new();
+    println!("{:?}", crypto.encrypt("Hello, world!".as_bytes()));
 }
